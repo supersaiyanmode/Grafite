@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Grafite - {{DATA.profileUser.Nickname}}</title>
+<meta name="keywords" content="twitter facebook google buzz Grafite chat" />
+<meta name="description" content="{{DATA.profileUser.Nickname}} - {{DATA.profileUser.userServicesString}}. Joined on {{DATA.profileUser.dateJoined|date}}" />
+<meta name="robots" content="all" />
+<link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/css/iPhoneStyle.css" media="screen" />
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/iPhoneStyle.js"></script>
+<script type="text/javascript" src="/js/profilePage.js"></script>
+<script type="text/javascript">
+var gUserId = "{{DATA.profileUser.key}}";
+</script>
+{% include "google-analytics.html" %}
+</head>
+<body>
+<!-- begin wrap -->
+<div id="wrap">
+	<div id="topbar">
+	    {% include "topbar.html" %}
+	</div>
+	
+	<!-- begin header -->
+	<div id="header">
+<!-- 		<h1><a href="#">Hello, Grafite :-)</a></h1> -->
+		<h2 id="path"><a href="/">Grafite</a>/<a href="#" class="userNickname">{{DATA.profileUser.Nickname}}</a></h2>
+	</div>
+	<!-- end header -->
+	
+	<!-- begin page -->
+	<div id="page">
+		<!-- begin content -->
+		<div id="content">
+			<div class="post">
+				<div class="entry">
+					<span style="float:left; margin-right:20px;">
+					<img src="{{DATA.profileUser.displayPicture}}" width="140px" height="140px"/>
+					</span>
+					<div>
+					<h3 class="userNickname">{{DATA.profileUser.Nickname}}</h3>
+					Joined on {{DATA.profileUser.dateJoined|date}}
+					&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+					Last seen {{DATA.profileUser.dateLastAccessed|timesince}} ago
+					<br>
+					{{DATA.profileUser.userServicesString}}
+					&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+					{{DATA.profileUser.statusCount.Total}} total status updates
+					<br>
+					{% ifequal DATA.FBFriends.result 'success' %}
+					    <span id="spanFacebookRelationTrue"
+					    {% if not DATA.FBFriends.value %}style="display:none"{%endif%}>
+					    This user is friends with you over Facebook. <a href="{{DATA.FBFriends.disconnect}}">Unfriend</a>
+					    </span>
+					    <span id="spanFacebookRelationFalse"
+					    {% if DATA.FBFriends.value %}style="display:none"{%endif%}>
+					    This user isn't friends with you over Facebook. <a href="{{DATA.FBFriends.connect}}">Send friend request</a>
+					    </span>
+					    <br/>
+					{% else %}
+					    {{DATA.FBFriends.message}}<br/>
+					{% endifequal %}
+					
+					{% ifequal DATA.BuzzFollowed.result 'success' %}
+					    {% if DATA.BuzzFollowed.value %}
+					    This user is following you over Buzz<br/>
+					    {% else %}
+					    This user is not following you over Buzz<br/>
+					    {% endif %}
+					{% else %}
+					    {{DATA.BuzzFollowing.message}}<br/>
+					{% endifequal %}
+					
+					{% ifequal DATA.BuzzFollowing.result 'success' %}
+					    <span id="spanBuzzRelationTrue"
+					    {% if not DATA.BuzzFollowing.value %}style="display:none"{%endif%}>
+					    You are following this user over Buzz.
+					    <a href="#" onclick="unfollowUser('Buzz'); return false">Unfollow</a>
+					    </span>
+					    <span id="spanBuzzRelationFalse"
+					    {% if DATA.BuzzFollowing.value %}style="display:none"{%endif%}>
+					    You are not following this user over Buzz.
+					    <a href="#" onclick="followUser('Buzz'); return false">Follow</a>
+					    </span>
+					    <br/>
+					{% else %}
+					    {{DATA.BuzzFollowing.message}}<br/>
+					{% endifequal %}
+					
+					{% ifequal DATA.TwitterRelationship.result 'success' %}
+					    {% if DATA.TwitterRelationship.followed %}
+					    This user follows you on twitter<br/>
+					    {% else %}
+					    This user doesnt follow you over twitter<br/>
+					    {% endif %}
+					    
+					    <span id="spanTwitterRelationTrue"
+					    {% if not DATA.TwitterRelationship.following %}style="display:none"{%endif%}>
+					    You are following this user over twitter.
+					    <a href="#" onclick="unfollowUser('Twitter'); return false">Unfollow</a>
+					    </span>
+					    <span id="spanTwitterRelationFalse"
+					    {% if DATA.TwitterRelationship.following %}style="display:none"{%endif%}>
+					    You are not following this user over twitter.
+					    <a href="#" onclick="followUser('Twitter'); return false">Follow</a>
+					    </span>
+					    <br/>
+					{% else %}
+					    {{DATA.TwitterRelationship.message}}
+					{% endifequal %}
+					</div>
+					<div style="clear:both">&nbsp;</div>
+				</div>
+			</div>
+			{{DATA.statuses1}}
+			{% if not DATA.statuses %}
+			<div class="post">
+				<div class="entry">
+					<p>
+					{{DATA.profileUser.Nickname}} hasn't posted anything yet.
+					</p>
+				</div>
+			</div>
+			{%endif%}
+			{% for status in DATA.statuses %}
+			<div class="post">
+				<div class="entry">
+					<p>
+					 {{status.text}}
+					</p>
+					<br/>
+					to {{status.service}}, {{status.timestamp|timesince}} ago
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+		<!-- end content -->
+		<!-- begin sidebar -->
+		<!--div id="sidebar">
+			{% include "sidebar.html" %}
+		</div-->
+
+		<!-- end sidebar -->
+	</div>
+	<!-- end page -->
+	{% include "bottombar.html" %}
+	<!-- begin footer -->
+	<div id="footer">
+		<!-- All we ask of you is to keep this credits intact. We hope you don't mind :) -->
+		<p class="legal"><a href="http://www.thewebhub.com/2008/11/lightspeed/">LightSpeed Free CSS Template</a> by <a href="http://thewebhub.com/">TheWebHub.com</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/ph/">Creative Commons Attribution-Share Alike 3.0 Philippines License</a>.<br />
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/ph/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/ph/88x31.png" /></a></p>
+	</div>
+	<!-- end footer -->
+</div>
+<!-- end wrap -->
+</body>
+</html>

@@ -1,0 +1,62 @@
+<ul>
+	<li class="animSlideDown">
+		<h2>Statistics</h2>
+		<ul>
+			<li><a href="/users/">
+			    <span id="spanTotalUsers"><img src="/images/ajax-loader.gif"/></span> total registered Users
+			    </a>
+			</li>
+			<li><span id="spanTotalStatuses"><img src="/images/ajax-loader.gif"/></span> total status updates</li>
+			<li><span id="spanTotalReminders"><img src="/images/ajax-loader.gif"/></span> total reminders set</li>
+			<li><span id="spanLatestUser"><img src="/images/ajax-loader.gif"/></span> is the newest Grafite user</li>
+			<li><a href="#" onclick="toggleUsersOnline(); return false">
+			    <span id="spanOnlineUsers"><img src="/images/ajax-loader.gif"/></span> users online</a>
+			    <div id="divListUsersOnline" style="overflow:auto;"></div>
+			</li>
+		</ul>
+		
+		<br style="clear:both"/>
+	</li>
+	<li class="animSlideDown">
+		<h2>Coming up shortly</h2>
+		<ul>
+		    <li>Connect to LinkedIn
+		    <li>Chrome Extension
+		    <li>KDE Plasmoid
+		</ul>
+	</li>
+</ul>
+<script>
+$(function(){
+    $.ajax({
+	type: 'GET',
+	url: '/statistics',
+	success: function(data){
+	    data = $.parseJSON(data);
+	    if (data.result == 'success'){
+		$('#spanTotalStatuses').html(data.TotalStatuses);
+		$('#spanTotalUsers').html(data.TotalUsers);
+		$('#spanLatestUser').html(data.LatestUserHTML);
+		$('#spanOnlineUsers').html(data.OnlineUsersCount);
+		$('#spanTotalReminders').html(data.TotalReminders);
+		
+		if ('' + data.OnlineUsers != '0'){
+		    var str = "<div style='padding-top:5px'>";
+		    $.each(data.OnlineUsersList, function(index, value) { 
+			if (index<=19)
+			    str += "<a href='" + value.ProfileUrl + "'><span class='profileBlock'>\
+			    <img src='"+value.dpUrl+"' style='float:left;margin-top:2px;margin-left:2px' width='25px' height='25px'/>" + value.Nickname + "</span></a>";
+		    });
+		    str += "</div>";
+		    $('#divListUsersOnline').html(str);
+		}
+	    }
+	}
+    });
+});
+function toggleUsersOnline(){
+    $('#divListUsersOnline').toggle("fast");
+    return false;
+}
+toggleUsersOnline();
+</script>

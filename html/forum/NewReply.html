@@ -1,0 +1,15 @@
+<tr id="rowComment_{{post.key.id}}">
+<td style="vertical-align:top"><img src="{{post.user.displayPicture}}" width="40px"/></td>
+<td style="vertical-align:top">
+<div>
+    <a href="{{post.user.profileUrl}}">{{post.user.Nickname}}</a>
+</div>
+{{post.comment|escape|linebreaksbr|urlize}}
+<br/>
+<br/>
+<span class="forumActionURL">
+{{post.time}}
+&nbsp;&nbsp;&bull;&nbsp;&nbsp;<a href="#" onclick="return deletePost({{post.key.id}})">delete</a>
+</span>
+</td>
+</tr>

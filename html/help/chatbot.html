@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Grafite Chatbot Help</title>
+<meta name="keywords" content="Grafite chatbot help syntaxes" />
+<meta name="description" content="Commands that Grafite chatbot understands, the syntaxes and explanation."/>
+<meta name="robots" content="all" />
+<link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+<script type="text/javascript" src="js/volatile.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+</head>
+<body onload="setVolatileOnAllInputs()">
+<!-- begin wrap -->
+<div id="wrap">
+	<div id="topbar">
+	    {% include "../topbar.html" %}
+	</div>
+	
+	<!-- begin header -->
+	<div id="header">
+	    <h2 id="path"><a href="/">Grafite</a>/<a href="#">Help/ChatBotHelp</a></h2>
+	</div>
+	<!-- end header -->
+	<!-- begin page -->
+	<div id="page">
+		<!-- begin content -->
+		<div id="content">
+		    <div class="post">
+			<h2 class="title">Getting Started</h2>
+			<div class="entry">
+			    There are three, very obvious steps in using Grafite (Duh! :P)<br>&nbsp;
+			    <h3>Register</h3>
+			    <p>
+			    Very much like you would add your friend, you need to add GrafiteBot (with gtalk id as <a href='#'>grafiteapp@appspot.com</a>) to your friends list. 
+			    <br>
+			    Once you are done adding Grafite, you need to register. Registration is simple. Just type <cite>register your-new-password</cite>. If I choose a password <strong>qwe!@#</strong>, then I would type
+			    <pre>register qwe!@#</pre>
+			    in the chat window, to register myself. <br/>
+			    [This crappy registration process will change in some time :P]
+			    </p>
+			    <h3>Authorise</h3>
+			    <p>			    
+			    The basic idea behind Grafite is to fetch information and update your status from all the social networking sites, at one go. Obviously, you need to authorise Grafite to fetch details on your behalf. Grafite uses <a href="http://en.wikipedia.org/wiki/OAuth">OAuth</a> Protocol for the same. To authorise a certain service, click on the authorise link that appears in your home page or the chat window. If its the chat window that you are using, you have to type <pre>status</pre> and send it accross to grafite, to get the URL. More details below.
+			    </p>
+			    <h3>Fetch status Info &amp; Update it</h3>
+			    <p>
+			    Grafite Chat bot can fetch details for you from all the services you have authorised it to fetch from. Just type "status" in the chat window. Grafite fetches data from the servives, if it can, else it will give you the links to authorise itself.
+			    <br/>
+			    You can update a status of all the social networking sites at one go by issuing the "update" command. Like, if I had to update my status as "Hey, I am trying out Grafite", I would type, in the chat window: <pre>update Hey, I am trying out Grafite</pre>
+			    </p>
+			</div>
+		    </div>
+		    <div class="post">
+			<h2 class="title">Chat Bot Commands</h2>
+			<div class="entry">
+			    <p>
+			    Grafite Chat bot doesn't really understand human languages. Speak anything that it doesn't understand and it responds with a random human-like <cite>I-Dont-Understand-Reply</cite>.
+			    <br/>
+			    BTW, the commands that GrafiteBot understands are summarised below.
+			    </p>
+			    <ul>
+			    
+			    <li><cite>help</cite>
+			    <br>
+			    Displays a compact list of all commands, and a link to this page
+			    </li>
+			    
+			    <li><cite>status</cite>
+			    <br>
+			    Fetches the number of comments/likes/retweets on your lastest status.
+			    <br>
+			    In case you haven't authorised Grafite for a certain service, the link to authorise the same will be displayed. This is one way how new users can quickly authorise Grafite.
+			    </li>
+			    
+			    <li><cite>update &lt;your status here minus these triangular brackets&gt;</cite>
+			    <br>
+			    This will post the specified update to all the connected services at one go.
+			    </li>
+
+			    <li><cite>home</cite>
+			    <br>
+			    This command gives you the link to access your homepage on the website here, without logging in. Very simple.
+			    </li>
+			    
+			    <li><cite>shorten http://the.url.to/be/shortened</cite>
+			    <br>
+			    Issuing this command will shorten the given URL using the <a href="http://goo.gl">goo.gl</a> service.
+			    </li>
+			    
+			    <li><cite>remind in &lt;time-value-integer&gt; (minutes|hours|days|weeks) &lt;reminder text&gt;</cite>
+			    <br>
+			    Like a friend pinging you up and reminding you about something. Grafite pings you.
+			    Eg:
+			    <pre>remind in 3 hours call up project report pending</pre>
+			    </li>
+			    
+			    </ul>
+			    
+			    
+			</div>
+		    </div>
+		</div>
+		<div id="sidebar">
+			{% include "../sidebar.html" %}
+		</div>
+	</div>
+	<!-- end page -->
+	<!-- begin footer -->
+	<div id="footer">
+		<!-- All we ask of you is to keep this credits intact. We hope you don't mind :) -->
+		<p class="legal"><a href="http://www.thewebhub.com/2008/11/lightspeed/">LightSpeed Free CSS Template</a> by <a href="http://thewebhub.com/">TheWebHub.com</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/ph/">Creative Commons Attribution-Share Alike 3.0 Philippines License</a>.<br />
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/ph/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/ph/88x31.png" /></a></p>
+	</div>
+	<!-- end footer -->
+</div>
+<!-- end wrap -->
+</body>
+</html>

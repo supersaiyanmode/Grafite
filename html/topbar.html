@@ -1,0 +1,246 @@
+<div class="topLink"><a href="/">Home</a></div>
+<div class="topLink"><a href="/forum">Forum</a></div>
+<div class="topLink"><a href="/users/">Users</a></div>
+<div class="topLink"><a href="#">Downloads</a></div>
+<div class="topLink"><a target="_blank" href="https://www.facebook.com/apps/application.php?id=179976055368084">FB Fan Page</a></div>
+<div class="topLink"><a href="/help">Help</a></div>
+{% if DATA.user %}
+<!-- Place this tag where you want the +1 button to render -->
+<div class="topLink" id="divUserBar" style="float:right;padding-top:0px">
+<a href="#" onclick="toggleLoginDiv();">
+<span style="float:right;">&nbsp;&#9660;</span>
+<span style="float:right;" class="userNickname">{{DATA.user.Nickname}}</span>
+<img class="userDisplayPicture" src="{{DATA.user.displayPicture}}" height="25px" width="25px"/>
+</a>&nbsp;
+</div>
+<div id="divLoginPopup">
+    <div id="divLogin" class="entry">
+	<div style="float:right; width:100px;">
+	    <a href="{{DATA.user.profileUrl}}"><img class="userDisplayPicture" src="{{DATA.user.displayPicture}}" height="100px" width="100px" /></a>
+	    <form action="/account" name="frmLogin" method="POST">
+	    <input type="hidden" name="type" value="logout">
+	    </form>
+	</div>
+	<div id="divLoginLeftLinks" style="float:left;">
+	    <ul>
+		<li><a href="{{DATA.user.profileUrl}}">Profile</a></li>
+		<li><a href="/account">Account Settings</a></li>
+		<li><a href="#" onclick="document.forms['frmLogin'].submit()">Sign Out</a><li>
+	    </ul>
+	</div>
+    </div>
+</div>
+{% else %}
+<div class="topLink" id="divUserBar" style="float:right;padding-top:0px">
+    <a href="#" onclick="toggleLoginDiv();">Login</a>
+    <a href="#" onclick="toggleRegisterDiv();">Register</a>
+</div>
+
+<div id="divLoginPopup">
+    <div id="divLogin" class="entry">
+	<form action="/account" method="POST">
+	    <input type="text" name="user" prompt="Username" bigtext></input>
+	    <br>
+	    <input type="password" name="password" prompt="Password" bigtext></input>
+	    <input type="hidden" name="client" value="webbrowser"></input>
+	    <input type="hidden" name="to" value="{{DATA.to}}"></input>
+	    <input type="hidden" name="type" value="login"></input>
+	    <input type="submit" style="visibility:hidden; width:1px; height:1px;"></input>
+	</form>
+	<span class="fineprint">
+	You can type "home" and send it to Grafite chat-bot, and login directly!
+	<br/>To register, add grafiteapp@appspot.com to your GTalk list..
+	</span>
+    </div>
+</div>
+<script type="text/javascript" src="/js/register.js"></script>
+<div id="divRegisterPopup">
+    <div id="divRegister" class="entry">
+        <div class="entry" id="divRegisterStep1">
+            <h3 style="margin-bottom:3px;">Step 1 of 3</h3>
+            <span>
+                Choose a username <br>
+                <input type="text" id="txtNewUserUsername" placeholder="Username" bigtext/>
+                <br/>
+                <span id="spanCheckAvailability">
+                    <a href="#" onclick="checkNewUsernameValidity(); return false;">Check availability</a>
+                </span>
+                <span id="spanUsernameAvailable">
+                    <span id="spanAvailableUsername"></span> available!
+                    <span id="spanUsernameAvailableNextLink">
+                    <a href="#" onclick="setRegisterPage(2); return false;">Next</a>
+                    </span>
+                </span>
+            </span>
+        </div>
+        <div class="entry" id="divRegisterStep2">
+            <h3 style="margin-bottom:3px;">Step 2 of 3</h3>
+            Choose a password (optional)
+            <input type="password" id="txtNewUserPassword" placeholder="Password" bigtext/>
+            <br/>
+            <input type="password" id="txtNewUserPasswordConfirm" placeholder="Confirm" bigtext/>
+            <a href="#" onclick="updateNewUserPassword(); return false;">Update</a>
+            <a href="#" onclick="setRegisterPage(3); return false;">Next</a>
+            
+        </div>
+        <div class="entry" id="divRegisterStep3">
+            <h3 style="margin-bottom:3px;">Step 3 of 3</h3>
+            Enter your email address: <input type="text" id="txtNewUserEmail" placeholder="Email Address" bigtext/>
+            <br/>
+            <a href="#" onclick="sendVerificationCode(); return false;">Send Verification Code</a>
+            <br/>
+            Follow the instructions in the email sent.
+        </div>
+    </div>
+</div>
+    
+{% endif %}
+<span style="padding-top:2px;width:180px;height:24px;padding-left:20px;">
+    <input type="text" id="txtTopbarUserSearch" border="none" placeholder="Search"></input>
+</span>
+
+<div id="divTopbarUserSearchResults"></div>
+<script type="text/javascript">
+function toggleLoginDiv(){
+    if (toggleLoginDiv.showing == true){
+        $('#sidebar').animate({"margin-top":"0px"});
+        $('#divLoginPopup').slideUp();
+    }else{
+        if (toggleRegisterDiv.showing==true)
+            toggleRegisterDiv();
+        $('#sidebar').animate({"margin-top":"100px"});
+        $('#divLoginPopup').slideDown();
+    }
+    toggleLoginDiv.showing = !toggleLoginDiv.showing;
+}
+function toggleRegisterDiv(){
+    if (toggleRegisterDiv.showing == true){
+        $('#sidebar').animate({"margin-top":"0px"});
+        $('#divRegisterPopup').slideUp();
+    }else{
+        if (toggleLoginDiv.showing==true)
+            toggleLoginDiv();
+        $('#sidebar').animate({"margin-top":"100px"});
+        $('#divRegisterPopup').slideDown();
+    }
+    toggleRegisterDiv.showing = !toggleRegisterDiv.showing;
+}
+$(function(){
+    $('.animSlideDown').hide();
+    $('.animSlideDown').slideDown("slow");
+    
+    var s = $('#txtTopbarUserSearch').offset().left + "px";
+    console.log(s);
+    $('#divTopbarUserSearchResults').css("left", s);
+    $('#txtTopbarUserSearch').css("right",$('#divTopbarUserSearchResults').css('right')+"px");
+    $('#divTopbarUserSearchResults').hide();
+    $('#txtTopbarUserSearch').keyup(function(){
+        var text = encodeURIComponent($.trim($('#txtTopbarUserSearch').val()));
+        if (text == ""){
+            $('#divTopbarUserSearchResults').html("");
+            $('#divTopbarUserSearchResults').hide();
+            return;
+        }
+        $('#divTopbarUserSearchResults').hide();
+        $.ajax({
+            type: 'GET',
+            url: '/users/?type=search&q='+ text,
+            success: function(data){
+                console.log(data);
+                var response = $.parseJSON(data);
+                if (response.result=='success'){
+                    var str = "";
+                    var users = response.data;
+                    for (var i=0; i<users.length; i++){
+                        str+= "\
+                        <a href='"+users[i].url+"'>\
+                        <span class='profileBlock'>"+users[i].nickname+"\
+                        <img style='float:left;' src='"+users[i].dp+"' width='30px' height='30px'/></span>\
+                        </a><br style='clear:both'>\n";
+                    }
+                    str+= "<a href='#' \
+                    onclick='$(\"#divTopbarUserSearchResults\").html(\"\").hide();\
+                    $(\"#txtTopbarUserSearch\").val(\"\");'>Close Results</a>\
+                    <br style='clear:both'>\n";
+                    
+                    $('#divTopbarUserSearchResults').html(str);
+                    $('#divTopbarUserSearchResults').show();
+                }
+            }
+        });
+    });
+    toggleLoginDiv.showing = false;
+    $('#divLoginPopup').hide();
+    toggleRegisterDiv.showing = false;
+    $('#divRegisterPopup').hide();
+    setRegisterPage(1);
+    
+    $('#txtNewUserUsername').keyup(function(){
+        $('#spanUsernameAvailable').hide();
+        $('#spanCheckAvailability').show();
+    });
+    $('#spanUsernameAvailable').hide();
+});
+
+function setRegisterPage(step){
+    $('#divRegisterStep1').hide();
+    $('#divRegisterStep2').hide();
+    $('#divRegisterStep3').hide();
+    $('#divRegisterStep4').hide();
+    $('#divRegisterStep'+step).show();
+}
+
+function checkNewUsernameValidity(){
+    if (typeof(checkNewUsernameValidity.initialRegisterCookieAJAX) == 'undefined'){
+        checkNewUsernameValidity.initialRegisterCookieAJAX = 1;
+        $.ajax({
+            type: 'GET',
+            url: '/register',
+            success: function(data){
+                setTimeout(checkNewUsernameValidity,10);
+            }
+        });
+        return;
+    }
+    var nick = $.trim($("#txtNewUserUsername").val());
+    if (nick == "")
+        return false;
+    var request = {"type":"setNickname","nickname":nick}
+    $.post('/register',request,function(data,text,jqXHR){
+        data = $.parseJSON(data);
+        if (data.result=='success'){
+            $('#spanUsernameAvailable').show();
+            $('#spanAvailableUsername').html(nick + " is");
+            $('#spanUsernameAvailableNextLink').show();
+            $('#spanCheckAvailability').hide();
+        }else{
+            $('#spanAvailableUsername').html(nick + " isn't");
+            $('#spanUsernameAvailableNextLink').hide();
+            $('#spanUsernameAvailable').show();
+            $('#spanCheckAvailability').hide();
+        }
+    });
+    return false;
+}
+function updateNewUserPassword(){
+    var pwd = $("#txtNewUserPassword").val();
+    var pwd1 = $("#txtNewUserPasswordConfirm").val();
+    if (pwd == "" || pwd1 == "")
+        return false;
+    
+    if (pwd != pwd1){
+        alert("Passwords dont match!");
+        return false;
+    }
+    var request = {"type":"setPassword","password":pwd}
+    $.post('/register',request,function(data,text,jqXHR){
+        data = $.parseJSON(data);
+        if (data.result=='success'){
+            alert("Password Updated!");
+        }else{
+            alert("Error: "+data.message);
+        }
+    });
+    return false;
+}
+</script>

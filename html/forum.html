@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Grafite User Home Page</title>
+<meta name="keywords" content="twitter facebook google buzz Grafite chat" />
+<meta name="description" content="Grafite's forum." />
+<meta name="robots" content="all" />
+<link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/forum.js"></script>
+<script type="text/javascript">
+//var curPageNumber = {{DATA.curPage}};
+</script>
+{% include "google-analytics.html" %}
+</head>
+<body>
+<!-- begin wrap -->
+<div id="wrap">
+	<div id="topbar">
+	    {% include "topbar.html" %}
+	</div>
+	
+	<!-- begin header -->
+	<div id="header">
+<!-- 	    <h1><a href="#">Hello, Grafite :-)</a></h1> -->
+	    <h2 id="path"><a href="/">Grafite</a>/<a href="#">Forum</a>
+	</div>
+	<!-- end header -->
+	<!-- begin page -->
+	<div id="page">
+		<!-- begin content -->
+		<div id="content">
+		    {% if DATA.user %}
+		    <div id="divCreateNewPost">
+		    <div class="post">
+			<div class="entry">
+			    <input type="hidden" name="type" value="CreateThreadPost"/>
+			    <textarea id="txtAreaCreateNewPost" style="width:100%; height:100px; font-size:15px;"></textarea>
+			</div>
+			<div class="meta" style="text-align:center">
+			    <Button id="btnCreateNewPost">Post</Button>
+			</div>
+			</form>
+		    </div>
+		    </div>
+		    {% endif %}
+		    <div id="divThreadsContainer">
+		    {% for t in DATA.threads %}
+		    <div class="post" id="divThread_{{t.key.id}}">
+			<div class="entry">
+				<table>
+				<tr>
+				<td style="vertical-align:top"><img src="{{t.posts_expanded.0.user.displayPicture}}" width="80px"/></td>
+				<td style="vertical-align:top"><span><div><a href="{{t.posts_expanded.0.user.profileUrl}}">{{t.posts_expanded.0.user.Nickname}}</a></div>
+				<br/>
+				{{t.posts_expanded.0.comment|escape|linebreaksbr|urlize}} </span>
+				<br/>
+				<span class="forumActionURL">
+				<a href="/forum?t={{t.key.id}}">{{t.posts_expanded.0.time|timesince}} ago</a>
+				&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+				<a href="#" class="forumActionURL">comment</a>
+				{% ifequal t.posts_expanded.0.user.key DATA.user.key %}
+				&nbsp;&nbsp;&bull;&nbsp;&nbsp;<a href="#" onclick="return deletePost({{t.posts_expanded.0.key.id}})">delete</a>
+				{%endifequal%}
+				</span>
+				</td>
+				</tr>
+				<tr>
+				<td>&nbsp;</td>
+				<td>
+				    <table id="tblThreadComment_{{t.key.id}}">
+				    {% for p in t.posts_expanded %}
+				    {% if forloop.counter0 %}
+				    <tr id="rowComment_{{p.key.id}}">
+					<td style="vertical-align:top"><img src="{{p.user.displayPicture}}" width="40px"/></td>
+					<td style="vertical-align:top">
+					<div>
+					<a href="{{p.user.profileUrl}}">{{p.user.Nickname}}</a>
+					</div>
+					{{p.comment|escape|linebreaksbr|urlize}}
+					<br/>
+					<br/>
+					<span class="forumActionURL">
+					{{p.time|timesince}} ago
+					{% ifequal p.user.key DATA.user.key %}
+					&nbsp;&nbsp;&bull;&nbsp;&nbsp;<a href="#" onclick="return deletePost({{p.key.id}})">delete</a>
+					{%endifequal%}
+					</span>
+					</td>
+				    </tr>
+				    {% endif %}
+				    {% endfor %}
+				    {% if DATA.user %}
+				    <tr>
+					<td style="vertical-align:top"><img src="{{DATA.user.displayPicture}}" width="40px"/></td>
+					<td style="vertical-align:top">
+					<div><a href="{{DATA.user.profileUrl}}">{{DATA.user.Nickname}}</a></div>
+					<textarea class="commentbox" name="text" id="txtPostComment_threadId_{{t.key.id}}"></textarea>
+					<button onclick="return postReply({{t.key.id}})">Reply</button>
+					</td>
+				    </tr>
+				    {% endif %}
+				    </table>
+				</td>
+				</tr>
+				</table>
+			</div>
+		    </div>
+		    {% endfor %}
+		    </div>
+		</div>  
+		<!--div id="sidebar">
+			{% include "sidebar.html" %}
+		</div-->
+	</div>
+	<!-- end page -->
+	{% include "bottombar.html" %}
+	<!-- begin footer -->
+	<div id="footer">
+		<!-- All we ask of you is to keep this credits intact. We hope you don't mind :) -->
+		<p class="legal"><a href="http://www.thewebhub.com/2008/11/lightspeed/">LightSpeed Free CSS Template</a> by <a href="http://thewebhub.com/">TheWebHub.com</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/ph/">Creative Commons Attribution-Share Alike 3.0 Philippines License</a>.<br />
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/ph/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/ph/88x31.png" /></a></p>
+	</div>
+	<!-- end footer -->
+</div>
+<!-- end wrap -->
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Grafite - Home</title>
+<meta name="keywords" content="twitter facebook google buzz Grafite chat" />
+<meta name="description" content="Grafite is a simple service that allows you to get the latest activity on all of your social networks, at one place that you like the most -- chat window!" />
+<meta name="robots" content="all" />
+<link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="css/iPhoneStyle.css" media="screen" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="js/iPhoneStyle.js"></script>
+<script type="text/javascript" src="js/userHome.js"></script>
+<script type="text/javascript">
+var services = {{DATA.userServices}};
+</script>
+{% include "google-analytics.html" %}
+</head>
+<body>
+<!-- begin wrap -->
+<div id="wrap">
+	<div id="topbar">
+	    {% include "topbar.html" %}
+	</div>
+	
+	<!-- begin header -->
+	<div id="header">
+<!-- 		<h1><a href="#">Hello, Grafite :-)</a></h1> -->
+		<h2 id="path"><a href="/">Grafite</a>/Home</h2>
+	</div>
+	<!-- end header -->
+	<!--left side links-->
+	<div id="divStreamLinks">
+            <!--a href="#" onclick='toggleStream("TabPostStatus");return false;'>Post a status</a><br/>
+            <a href="#" onclick='toggleStream("TabUnified");return false;'>Unified</a><br/-->
+            <a href="#" onclick='toggleStream("Facebook");return false;'>Facebook</a><br/>
+            <a href="#" onclick='toggleStream("Twitter");return false;'>Twitter</a><br/>
+            <a href="#" onclick='toggleStream("Buzz");return false;'>Google Buzz</a><br/>
+	</div>
+	<!-- begin page -->
+	<div id="page">
+		<!-- begin content -->
+		<div id="content">
+			<!--div class="post" id="divTabPostStatus">
+				<h2 class="title"><a href="#">Post a Status</a></h2>
+				<div class="entry">
+					<form action="/updatestatus" onsubmit="return update();" method='POST'>
+					    <input type="text" name="status" placeholder="Your Status" id='txtStatus'></input>
+					    <input type="hidden" name="redirect" value="/userHome"></input>
+					    <span id="divSubmit">
+					    <input type="submit" value="Post Update!"/>
+					    </span>
+					    <br/>
+					    <div id="divServicesCheckBoxes"></div>
+					</form>
+				</div>
+			</div>
+			<div class="post" id="divTabFacebook">
+				<h2 class="title"><a href="#">Facebook</a></h2>
+				<div class="entry">
+					{% if not DATA.facebook.authenticationStatus %}
+					    <img id="imgFacebookDP" src="/images/ajax-loader.gif"/>
+					{% else %}
+					    <p class="byline"><i>Currently unauthorised. Please authorize Grafite
+					    <a href="/facebook/authenticate/">here</a></i>
+					    </p>
+					{% endif %}
+				</div>
+				{% if not DATA.facebook.authenticationStatus %}
+				<div class="meta">	    	    
+					<p class="tags"><b>Last Status:&nbsp;</b>
+					<span id="spanFacebookLastStatus">
+					<img src="/images/ajax-loader.gif"/>
+					</span>
+					</p>
+					<p class="links">
+					    <a style='padding-left:22px' href="#" class="comments">
+					    <span id="spanFacebookComments">
+					    <img src="/images/ajax-loader.gif"/>
+					    </span>
+					    Comments
+					    </a>
+					    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+					    <a style='padding-left:22px' href="#" class="comments">
+					    <span id="spanFacebookLikes">
+					    <img src="/images/ajax-loader.gif"/>
+					    </span> 
+					    Likes
+					    </a>
+					    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+					    <a style='padding-left:22px' id="lnkFacebook" href="#" class="permalink">link</a>
+					</p>
+					<p class="links">
+                                            <span id="spanFacebookFeed">
+                                                <a href="#"  onclick="loadFacebookFeed(); return false;">Load Feed</a>
+                                            </span>
+					</p>
+				</div>
+				{% endif %}
+			</div>
+			<div class="post" id="divTabBuzz">
+				<h2 class="title"><a href="#">Google Buzz</a></h2>
+				<div class="entry">
+					{% if not DATA.buzz.authenticationStatus %}
+					    <img src="/images/ajax-loader.gif" id="imgBuzzDP"/>
+					{% else %}
+					    <p class="byline"><i>Currently unauthorised. Please authorize Grafite
+					    <a href="/buzz/authenticate/">here</a></i>
+					    </p>
+					{% endif %}
+				</div>
+				{% if not DATA.buzz.authenticationStatus %}
+				<div class="meta">
+					<p class="tags"><b>Last Status:&nbsp;</b>
+					<span id="spanBuzzLastStatus">
+					<img src="/images/ajax-loader.gif"/>
+					</span>
+					</p>
+					<p class="links">
+					<a style='padding-left:22px' href="#" class="comments">
+					<span id="spanBuzzComments">
+					<img src="/images/ajax-loader.gif"/>
+					</span>
+					Comments
+					</a>
+					&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+					<a style='padding-left:22px' href="#" class="comments">
+					<span id="spanBuzzLikes">
+					<img src="/images/ajax-loader.gif"/>
+					</span> 
+					Likes
+					</a>
+					&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+					<a style='padding-left:22px' id="lnkBuzz" href="#" class="permalink">link</a>
+					</p>
+					<p class="links">
+                                            <span id="spanBuzzFeed">
+                                                <a href="#"  onclick="loadBuzzFeed(); return false;">Load Feed</a>
+                                            </span>
+                                        </p>
+				</div>
+				{% endif %}
+			</div>
+			<div class="post" id="divTabTwitter">
+				<h2 class="title"><a href="#">Twitter</a></h2>
+				<div class="entry">
+					{% if not DATA.twitter.authenticationStatus %}
+					    <img src="/images/ajax-loader.gif" id="imgTwitterDP"/>
+					{% else %}
+					    <p class="byline"><i>Currently unauthorised. Please authorize Grafite
+					    <a href="/twitter/authenticate/">here</a></i>
+					    </p>
+					{% endif %}
+				</div>
+				{%if not DATA.twitter.authenticationStatus %}
+				<div class="meta">
+					<p class="tags"><b>Last Status:&nbsp;</b>
+					<span id="spanTwitterLastStatus">
+					<img src="/images/ajax-loader.gif"/>
+					</span>
+					</p>
+					<p class="links">
+					<a style='padding-left:22px' href="#" class="comments">
+					<span id="spanTwitterRetweets">
+					<img src="images/ajax-loader.gif"/>
+					</span>
+					Replies
+					&nbsp;&nbsp;&bull;&nbsp;&nbsp; 
+					Retweets
+					</a>
+					&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+					<a style='padding-left:22px' href="#" id="lnkTwitter" class="permalink">link</a></p>
+					<p class="links">
+                                            <span id="spanTwitterFeed">
+                                                <a href="#"  onclick="loadTwitterFeed(); return false;">Load Feed</a>
+                                            </span>
+                                        </p>
+				</div>
+				{%endif%}
+			</div-->
+			
+			<div class="post" id="divTabUnified">
+                                <h2 class="title"><a href="#">Unified</a></h2>
+                                <div class="entry" id="divUnifiedStreamContent">
+                                        
+                                </div>
+			</div>
+		</div>
+		<!-- end content -->
+	</div>
+	<!-- end page -->
+	{% include "bottombar.html" %}
+	<!-- begin footer -->
+	<div id="footer">
+		<!-- All we ask of you is to keep this credits intact. We hope you don't mind :) -->
+		<p class="legal"><a href="http://www.thewebhub.com/2008/11/lightspeed/">LightSpeed Free CSS Template</a> by <a href="http://thewebhub.com/">TheWebHub.com</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/ph/">Creative Commons Attribution-Share Alike 3.0 Philippines License</a>.<br />
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/ph/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/ph/88x31.png" /></a></p>
+	</div>
+	<!-- end footer -->
+</div>
+<!-- end wrap -->
+</body>
+</html>

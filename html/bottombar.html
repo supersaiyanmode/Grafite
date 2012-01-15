@@ -1,0 +1,291 @@
+<!-- BOTTOM BAR!!!!-->
+<script type="text/javascript" src="js/timeago.js"></script>
+<div id="bottomBar">
+    <a href="#" id="lnkQuickUpdate" onclick="togglePopup('divQuickUpdate');return false;">Quick Update &#9652;</a>
+    <div class="BottompopupWrap" id="divQuickUpdate" style="dispay:none">
+        <div class="BottomPopup">
+        {% if DATA.user %}
+            <textarea id="txtStatusQuickUpdate"></textarea>
+            <!--br>
+            <label><input type='checkbox' id='chkFacebookQuickUpdate' checked='checked'/>Facebook</label>
+            <label><input type='checkbox' id='chkBuzzQuickUpdate' checked='checked'/>Buzz</label>
+            <label><input type='checkbox' id='chkTwitterQuickUpdate' checked='checked'/>Twitter</label-->
+            <div id="divSubmitQuickUpdate" style="text-align:center">
+                <button onclick="update('QuickUpdate'); return false">Update</button>
+            </div>
+            <span class="fineprint">Goes to all connected networks</span><br>
+        {% else %}
+        Grr.. You need to be logged in!
+        {%endif%}
+        </div>
+    </div>
+    
+    <a href="#" id="lnkStatistics" onclick="togglePopup('divStatistics');return false;">Your Stats &#9652;</a>
+    <div class="BottompopupWrap" id="divStatistics" style="dispay:none">
+        <div class="BottomPopup">
+            <ul style="list-style:none">
+            <li><a href="/users/">
+                <span id="spanTotalUsers"><img src="/images/ajax-loader.gif"/></span> total registered Users
+                </a>
+            </li>
+            <li><span id="spanTotalStatuses"><img src="/images/ajax-loader.gif"/></span> total status updates</li>
+            <li><span id="spanTotalReminders"><img src="/images/ajax-loader.gif"/></span> total reminders set</li>
+            <li><span id="spanLatestUser"><img src="/images/ajax-loader.gif"/></span> is the newest Grafite user</li>
+            <li><a href="#" onclick="toggleUsersOnline(); return false">
+                <span id="spanOnlineUsers"><img src="/images/ajax-loader.gif"/></span> users online</a>
+                <div id="divListUsersOnline" style="overflow:auto;"></div>
+            </li>
+            </ul>
+            {% if DATA.user %}
+            <h3>{{DATA.user.Nickname}} Stats</h3>
+            <ul style="list-style:none">
+            <li><span id="spanUserStatuses"><img src="/images/ajax-loader.gif"/></span> status updates</li>
+            <li><span id="spanUserReminders"><img src="/images/ajax-loader.gif"/></span> reminders set</li>
+            </ul>
+            {%endif%}
+        </div>
+    </div>
+    
+    <a href="#" id="lnkReminders" onclick="togglePopup('divReminders');return false;">Reminders &#9652;</a>
+    <div class="BottompopupWrap" id="divReminders" style="dispay:none;overflow-y:hidden">
+        <div class="BottomPopup" >
+            <div id="divRemindersContent" style="overflow-y:auto;overflow-x:hidden;height:350px;">
+            </div>
+            {% if DATA.user %}
+                <form method="POST" id="frmReminders" action="/reminder" onsubmit="postReminder();return false;">
+                    <input name="type" type="hidden" value="add"/>
+                    <input name="text" type="text" id="txtReminderText" style="width:100px;margin:3px;" placeholder="Reminder Text"/>
+                    <input name="time" type="text" id="txtReminderTime" style="width:100px;margin:3px;" placeholder="Time (eg. 3 minutes)"/>
+                    <input type="submit" value="Remind!"/>
+                </form>
+            {% else %}
+                How should I retrieve your reminders without having you logged on?
+            {% endif %}
+        </div>
+    </div>
+    
+    <a href="#" id="lnkShoutBox" onclick="togglePopup('divShoutBox');return false;">ShoutBox &#9652;</a>
+    <div class="BottompopupWrap" id="divShoutBox" style="dispay:none;overflow-y:hidden">
+        <div class="BottomPopup" >
+            <div id="divShoutBoxContent" style="overflow-y:auto;overflow-x:hidden;height:350px;">
+            </div>
+            {% if DATA.user %}
+                <form method="POST" id="frmShoutBox" action="/shout" onsubmit="postShout();return false;">
+                    <input name="message" type="text" id="txtShoutBox" style="width:80%"/>
+                    <input type="submit" value="Shout!" style="width:18%"/>
+                </form>
+            {% else %}
+                Shouldn't you be logging on? :-)
+            {% endif %}
+        </div>
+    </div>
+    
+    <div style="float:right">
+    <!-- Place this tag where you want the +1 button to render -->
+    <g:plusone size="medium" href="http://grafiteapp.appspot.com"></g:plusone>
+    
+    <!--FB like -->
+    <iframe  src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fgrafiteapp.appspot.com&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=true&amp;action=recommend&amp;colorscheme=light&amp;font=segoe+ui&amp;height=21&amp;appId=179976055368084" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:21px;" allowTransparency="true"></iframe>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+(function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+
+$(function(){
+    $('.BottompopupWrap').hide();
+    positionPopups();
+    togglePopup.popups = ['divQuickUpdate','divStatistics','divShoutBox','divReminders']
+});
+
+function positionPopups(){
+    $('#divQuickUpdate').css("left",$('#lnkQuickUpdate').offset().left);   
+    $('#divStatistics').css("left",$('#lnkStatistics').offset().left);   
+    $('#divShoutBox').css("left",$('#lnkShoutBox').offset().left);
+    $('#divReminders').css("left",$('#lnkReminders').offset().left);
+}
+function togglePopup(divId){
+    var popups = togglePopup.popups; //inited in $(..)..
+    for (x in popups)
+        if (divId != popups[x] && $('#'+popups[x]).is(":visible"))
+            $('#'+popups[x]).fadeOut("fast");
+    $('#' + divId).fadeToggle("fast");
+    
+    //click outside the div to hide .. bottom popups
+    setTimeout(function(){
+        $('html').bind('click',function(event) {
+            //$('.BottompopupWrap').bind('click',function(event){event.stopPropogation();});
+            togglePopup("RandomIdNotInDom");
+            $(this).unbind(event);
+        });
+    },10);
+
+    if (divId in ['divReminders','divShoutBox'])
+        $('#'+divId+'Content').scrollTop($('#'+divId+'Content')[0].scrollHeight);
+}
+
+function postShout(){
+    var message = $.trim($("#txtShoutBox").val());
+    if (message == "")
+        return false;
+    var html = $('#frmShoutBox').html();
+    $('#frmShoutBox').html('<img src="/images/ajax-loader.gif"/>');
+    $.ajax({
+        type: 'POST',
+        url: '/shout',
+        data: {"message":message},
+        success: function(data){
+            if (data.result == "success"){
+                data = data.data;
+                loadShoutBox(data);
+            }
+            $('#frmShoutBox').html(html);
+        }
+    });
+}
+
+function update(postfix){
+    if (typeof postfix == "undefined")
+        postfix = "";
+    
+    var text = $('#txtStatus' + postfix).val();
+    var services = ['Facebook','Buzz','Twitter'];
+    var toPost = services;
+    /*for (var i = 0; i<services.length; i++){
+        if($('#chk'+services[i]+postfix).is(":checked")){
+            toPost.push(services[i]);
+        }
+    }*/
+    console.log(toPost)
+    var divSubmitBackup = $('#divSubmit' + postfix).html()
+    $('#divSubmit' + postfix).html('<img src="/images/ajax-loader.gif"/>');
+    var toPostServices = toPost.join(',')
+    $.ajax({
+        type: 'POST',
+        url: '/status',
+        data: {"status":text,"services":toPostServices,"alt":"json"},
+        success: function(data){
+                if (data.result == 'success'){
+                    loadShoutBox(data.data);
+                }
+        }
+    });
+    return false;
+}
+$(function(){
+    $.ajax({
+        type: 'GET',
+        url: '/statistics',
+        success: function(data){
+            data = $.parseJSON(data);
+            if (data.result == 'success'){
+                $('#spanTotalStatuses').html(data.TotalStatuses);
+                $('#spanTotalUsers').html(data.TotalUsers);
+                $('#spanLatestUser').html(data.LatestUserHTML);
+                $('#spanOnlineUsers').html('' + data.OnlineUsersCount);
+                $('#spanTotalReminders').html('' + data.TotalReminders);
+                if (data.user){
+                    $('#spanUserStatuses').html('' + data.user.Statuses.Total);
+                    $('#spanUserReminders').html('' + data.user.Reminders);
+                }
+                if ('' + data.OnlineUsers != '0'){
+                    var str = "<div style='padding-top:5px'>";
+                    $.each(data.OnlineUsersList, function(index, value) { 
+                        if (index<=19)
+                            str += "<a href='" + value.ProfileUrl + "'><span class='profileBlock'>\
+                            <img src='"+value.dpUrl+"' style='float:left;margin-top:2px;margin-left:2px' width='25px' height='25px'/>" + value.Nickname + "</span></a>";
+                    });
+                    str += "</div>";
+                    $('#divListUsersOnline').html(str);
+                }
+            }
+        }
+    });
+    
+    getShouts();
+    getReminders();
+});
+function getShouts(){
+    $.ajax({
+        type:'GET',
+        url: '/shout',
+        success:function(data){
+            if (data.result=="success"){
+                data = data.data;
+                loadShoutBox(data);
+            }
+        }
+    });
+    setTimeout(getShouts,5000);
+}
+function loadShoutBox(data){
+    var str = "";
+    for (var i=0; i<data.length; i++){
+        //str += "<a href='" + value.ProfileUrl + "'><span class='profileBlock'><img src='"+value.dpUrl+"' style='float:left;margin-top:2px;margin-left:2px' width='25px' height='25px'/>" + value.Nickname + "</span></a>";
+        str += "<div style='float:left;margin:2px;'><img src='" + data[i].user.dp + "' style='width:20px;height:20px'></img></div>";
+        str += "<div style='margin-left:22px;'><a href='" + data[i].user.url+ "'><strong>" + data[i].user.nickname + "</strong></a>&nbsp;";
+        str += data[i].message + "</div>";
+        str += "<span class='timeago fineprint' title='"+data[i].time+"'/>";
+        str += "<div style='clear:both;height:2px;'></div>";
+    }
+    $('#divShoutBoxContent').html(str);
+    $('#divShoutBoxContent').scrollTop($("#divShoutBoxContent")[0].scrollHeight);
+}
+function getReminders(){
+    $.ajax({
+        type:'GET',
+        url:'/reminder',
+        success:function(data){
+            data = $.parseJSON(data);
+            if (data.result != 'success')
+                return;
+            data = data.data;
+            
+            var str = "";
+            str += "<span style='font-color:#333'>";
+            for (var i=0; i<data.old.length; i++){
+                str += data.old[i].text + "<span class='timeago' title='"+data.old[i].time+"'/><hr>";
+            }
+            str += "</span><hr><span style='font-color:white'>";
+            for (var i=0; i<data.pending.length; i++){
+                str += data.pending[i].text + "<span class='timeago' title='"+data.pending[i].time+"'/>"+"<hr style='color:#777;background-color:#777; height:1px;'>";
+            }
+            str += "</span>";
+            $('#divRemindersContent').html(str);
+            $('.timeago').timeago();
+        }
+    });
+}
+function postReminder(){
+    var reminderText = $.trim($("#txtReminderText").val());
+    var reminderTime = $.trim($("#txtReminderTime").val());
+    if (message == "")
+        return false;
+    var html = $('#frmReminders').html();
+    $('#frmReminders').html('<img src="/images/ajax-loader.gif"/>');
+    $.ajax({
+        type: 'POST',
+        url: '/reminder',
+        data: $('#frmReminders').serialize(),
+        success: function(data){
+            if (data.result == "success"){
+                data = data.data;
+                getReminders();
+            }
+            $('#frmReminders').html(html);
+        }
+    });
+    return false;
+}
+function toggleUsersOnline(){
+    $('#divListUsersOnline').toggle("fast");
+    return false;
+}
+toggleUsersOnline();
+</script>

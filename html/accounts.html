@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Grafite - Home Page</title>
+<meta name="keywords" content="twitter facebook google buzz Grafite chat" />
+<meta name="description" content="Grafite is a simple service that allows you to get the latest activity on all of your social networks, at one place that you like the most -- chat window!" />
+<meta name="robots" content="all" />
+<link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="css/iPhoneStyle.css" media="screen" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="js/iPhoneStyle.js"></script>
+<script type="text/javascript" src="js/accounts.js"></script>
+{% include "google-analytics.html" %}
+</head>
+
+<body>
+<!-- begin wrap -->
+<div id="wrap">
+	<div id="topbar">
+	    {% include "topbar.html" %}
+	</div>
+	
+	<!-- begin header -->
+	<div id="header">
+<!-- 		<h1><a href="#">Hello, Grafite :-)</a></h1> -->
+		<h2 id="path"><a href="/">Grafite</a>/Settings</h2>
+	</div>
+	<!-- end header -->
+	
+	<!-- begin page -->
+	<div id="page">
+		<!-- begin content -->
+		<div id="content">
+			<div class="post" id="divProfileSettings">
+				<h3 class="title1">Profile Settings</h2>
+				<div class="entry">
+				    <div style="float:left">
+				    <h4>Display Picture</h4><br/>
+				    <div>
+					{% for dps in DATA.DPList %}
+					<img src="{{dps.path}}" class="SocialNetworkDPs" width="80px" height="80px"/></input>
+					{% endfor %}
+					<br>or<br>
+					<input type="text" name="URLDP" id="txtURLDP" placeholder="Paste URL to an image here"/>
+		 		    </div>
+		 		    </div>
+		 		    <div style="float:right">
+					<br/>
+					<img width="140px" height="140px" src="{{DATA.user.displayPicture}}" id="imgDPPreview" class="userDisplayPicture"/>
+					<br>
+					<button onclick="setDP()">Update</button>
+		 		    </div>
+		 		    <div style="clear:both">&nbsp;</div>
+		 		    <hr>
+				    <h4 style="float:left">Nickname</h4>
+				    <div style="float:right">
+				    <input type="text" placeholder="Nickname" id="txtNickname" name="Nickname" value="{{DATA.user.Nickname}}"/>
+				    <br>
+				    <button onclick="setNickname()">Update</button>
+				    </div>
+				    <hr style="clear:both;margin-top:85px;">
+				</div>
+			</div>
+			
+			<div class="post" id="divGrafiteSettings">
+				<h3 class="title1">Grafite Settings</h2>
+				<div class="entry">
+				    <table>
+				    <tr>
+					<td>
+					Shorten Url
+					    <input name="ShortenUrl" type="checkbox" {% if DATA.settings.TwitterShortenURL %} checked="checked" {%endif%}/>
+					</td>
+					<td>
+					Split Status (Twitter)
+					    <input name="SplitStatus" type="checkbox" {% if DATA.settings.TwitterSplitStatus %} checked="checked" {%endif%}/>
+					</td>
+				    </tr>
+				    </table>
+				</div>
+			</div>
+			
+			<div class="post" id="divAccountSettings">
+				<h3 class="title1">Account Settings</h2>
+				<div class="entry">
+				    <Label> Change Password</Label>
+				    <form action="/account" method="post">
+				    <input type="hidden" name="type" value="password"/>
+				    <input type="password" name="prevPassword" placeholder="Old password"/>
+				    <br/>
+				    <input type="password" name="newPassword" placeholder="New password"/>
+				    <br/>
+				    <input type="password" name="newPassword1" placeholder="New password"/>
+				    <br/>
+				    <input type="submit" value="Update Settings"/>
+				    </form>
+				</div>
+				<div class="meta">
+				</div>
+				</form>
+			</div>
+		</div>
+		<!-- end content -->
+		<!-- begin sidebar -->
+		<div id="sidebar">
+			<ul>
+			    <li>
+				    <h2>Settings</h2>
+				    <ul>
+					    <li><a href="#" onclick="showSettingsDiv('divProfileSettings')">Profile Settings</a></li>
+					    <li><a href="#" onclick="showSettingsDiv('divGrafiteSettings')">Grafite Settings</a></li>
+					    <li><a href="#" onclick="showSettingsDiv('divAccountSettings')">Account Settings</a></li>
+				    </ul>
+			    </li>
+		    </ul>
+		</div>
+		<!-- end sidebar -->
+	</div>
+	<!-- end page -->
+	{% include "bottombar.html" %}
+	<!-- begin footer -->
+	<div id="footer">
+		<!-- All we ask of you is to keep this credits intact. We hope you don't mind :) -->
+		<p class="legal"><a href="http://www.thewebhub.com/2008/11/lightspeed/">LightSpeed Free CSS Template</a> by <a href="http://thewebhub.com/">TheWebHub.com</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/ph/">Creative Commons Attribution-Share Alike 3.0 Philippines License</a>.<br />
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/ph/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/ph/88x31.png" /></a></p>
+	</div>
+	<!-- end footer -->
+</div>
+<!-- end wrap -->
+</body>
+</html>

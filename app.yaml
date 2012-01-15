@@ -1,0 +1,49 @@
+application: grafiteapp
+version: dev
+runtime: python
+api_version: 1
+
+handlers:
+- url: /favicon.ico
+  static_files: images/favicon.ico
+  upload: images/favicon.ico
+
+- url: /robots.txt
+  static_files: html/robots.txt
+  upload: html/robots.txt
+
+- url: /googleb30847e87d449290.html
+  static_files: html/googleb30847e87d449290.html
+  upload: html/googleb30847e87d449290.html
+
+- url: /plusone.html
+  static_files: html/plusone.html
+  upload: html/plusone.html
+
+
+  
+- url: /images
+  static_dir: images
+
+- url: /css
+  static_dir: css
+
+- url: /js
+  static_dir: js
+
+- url: /dev-admin/.* 
+  script: $PYTHON_LIB/google/appengine/ext/admin 
+  login: admin 
+
+- url: /.*
+  script: main.py
+
+- url: /
+  static_dir: images
+
+builtins: 
+- datastore_admin: on
+
+inbound_services:
+- mail
+- xmpp_message

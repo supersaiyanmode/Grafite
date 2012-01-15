@@ -1,0 +1,19 @@
+{
+  "name": "Grafite",
+  "version": "1.0.3.0",
+  "description": "Chrome extension for Grafite. For more info, visit: http://grafiteapp.appspot.com",
+  "browser_action": {
+    "default_icon": "logo.png",
+    "popup":"popup.html"
+  },
+  "background_page":"background.html",
+  "chrome_url_overrides" : {
+    "newtab": "newtab.html"
+  },
+  "permissions":[
+    "https://grafiteapp.appspot.com/*",
+    "https://graph.facebook.com/*",
+    "https://www.facebook.com/*",
+    "tabs"
+  ]
+}

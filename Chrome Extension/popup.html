@@ -1,0 +1,106 @@
+<html>
+<head>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="popup.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<style>
+.entry{
+    margin:15px;
+    padding:5px;
+    background: url(images/post_entry_bg.png);
+}
+</style>
+</head>
+<body style="min-width:300px;">
+    <div style="margin-left:17px; margin-top:5px;">
+        <g:plusone size="medium" annotation="inline" href="http://grafiteapp.appspot.com"></g:plusone>
+
+        <!-- Place this render call where appropriate -->
+        <script type="text/javascript">
+        (function() {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/plusone.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+        </script>
+    </div>
+    <div id="divErrorMessage"></div>
+    <div class="entry" id="divUnauthorised">
+        <h3>Step 1</h3>
+        Please click <a href="#" onclick="openUrl('http://grafiteapp.appspot.com/api/register?appid=cdf5f490-ed14-485f-a42b-fffcfe90a76b')">here</a>
+        to authorise. You would need to login/register first. Paste the code generated onto the textbox below to authenticate.
+        <br/>
+        <br/>
+        <h3>Step 2</h3>
+        <input type="text" id="txtCode" placeholder="Code"/>
+        <br/>
+        <button onclick="register(); return false;">Authorize</button>
+    </div>
+    <div id="divAuthorised">
+        <div  class="entry">
+            <div style="float:left">
+                <img src="#" width="30px" height="30px" id="imgUserDP" style="margin-right:5px;float:left"/>
+            </div>
+            <div>
+                <strong><span id="imgUsername"></span></strong>
+                <br/>
+                <a href="#" onclick="openLoggedOnUrl('http://grafiteapp.appspot.com/');return false">Home</a>
+                &nbsp;&bull;&nbsp;
+                <a href="#" onclick="openLoggedOnUrl('http://grafiteapp.appspot.com/account');return false">Account Settings</a>
+                &nbsp;&bull;&nbsp;
+                <a href="#" onclick="unregister();">Logout</a>
+                <br syle="clear:both">
+            </div>
+        </div>
+        <div class="entry">
+            <div id='divBirthdays'>
+                <a href="#" onclick="$('#divBirthdaysList').toggle('fast');return false">
+                Birthdays (<span id="spanBirthdayCount"></span>)
+                </a>
+                <div style="clear:both"></div>
+                <div id="divBirthdaysList" style="margin-top:5px; margin-left:5px;display:none;">
+                </div>
+            </div>
+            <div style="clear:both; margin-top:5px;"/>
+            <div id='divFBNotifications'>
+                <a href="#" onclick="$('#divNotificationsList').toggle('fast');return false">
+                Notifications (<span id="spanNotificationsCount"></span>)
+                </a>
+                <div style="clear:both"></div>
+                <div id="divNotificationsList" style="margin-top:5px; margin-left:5px;display:none;">
+                </div>
+            </div>
+            <div style="clear:both; margin-top:5px;"/>
+            <a href="#" id="lnkRIL">Read this page later!</a>
+            <div id="divRILReminder" style="display:none">
+                Enter the time after which Grafite should ping you to remind you (eg: 5 minutes, 1 hours, 3 days etc)
+                <input type="text" id="txtRILReminderTime"/>
+                <button onclick="addPageReminder();">Remind!</button>
+            </div>
+            <div style="clear:both; margin-top:5px;"/>
+            <a href="#" id="lnkPublishCurrentPage">Post a link to this page!</a>
+            <div id="divPublishCurrentPage" style="display:none">
+                <textarea id="txtIFoundThisInteresting" style="width:100%;height:30px;"></textarea>
+                <br/>
+                <input id="chkUpdateFacebook_IFTI" type="checkbox">Facebook</input>
+                <input id="chkUpdateTwitter_IFTI" type="checkbox">Twitter</input>
+                <input id="chkUpdateBuzz_IFTI" type="checkbox">Google Buzz</input>
+                <br/>
+                <button onclick="publishCurrentPage();">Post!</button>
+            </div>
+            <div style="clear:both; margin-top:5px;"/>
+            <a href='#' onclick="$('#divStatusUpdate').toggle('fast');$('#divServices').toggle();return false;">Post an Update</a>
+            <div id="divStatusUpdate" style="display:none">
+            <textarea style="width:100%;height:60px;" id="txtStatus"></textarea>
+            <div id="divServices" style="display:none">
+                <input id="chkUpdateFacebook" type="checkbox">Facebook</input>
+                <input id="chkUpdateTwitter" type="checkbox">Twitter</input>
+                <input id="chkUpdateBuzz" type="checkbox">Google Buzz</input>
+            </div>
+            <button onclick="updateStatus();return false;">Update!</button>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

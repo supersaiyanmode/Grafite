@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Grafite - Grant Access</title>
+<meta name="keywords" content="twitter facebook google buzz Grafite chat" />
+<meta name="description" content="Grant access to Grafite apps" />
+<meta name="robots" content="all" />
+<link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="/js/users.js"></script>
+<script type="text/javascript">
+</script>
+{% include "google-analytics.html" %}
+</head>
+<body>
+<!-- begin wrap -->
+<div id="wrap">
+    <div id="topbar">
+        {% include "topbar.html" %}
+    </div>
+    
+    <!-- begin header -->
+    <div id="header">
+<!--        <h1><a href="#">Hello, Grafite :-)</a></h1> -->
+        <h2 id="path"><a href="/">Grafite</a>/<a href="#">RegisterApp</a></h2>
+    </div>
+    <!-- end header -->
+    <!-- begin page -->
+    <div id="page">
+        <!-- begin content -->
+        <div id="content">
+            <div class="post">
+                <h2 style="text-align:left">{{DATA.apiAccess.app.appName}} requests access</h2>
+                <div class="entry">
+                <p>
+                    Type this code in the application that requests access on your behalf.
+                    <br/>
+                    <pre style="font-size:14px">{{DATA.apiAccess.passCode}}</pre>
+                </p>
+                </div>
+            </div>
+        </div>
+        <!--div id="sidebar">
+            {% include "sidebar.html" %}
+        </div-->
+    </div>
+    <!-- end page -->
+    {% include "bottombar.html" %}
+    <!-- begin footer -->
+    <div id="footer">
+        <!-- All we ask of you is to keep this credits intact. We hope you don't mind :) -->
+        <p class="legal"><a href="http://www.thewebhub.com/2008/11/lightspeed/">LightSpeed Free CSS Template</a> by <a href="http://thewebhub.com/">TheWebHub.com</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/ph/">Creative Commons Attribution-Share Alike 3.0 Philippines License</a>.<br />
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/ph/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/ph/88x31.png" /></a></p>
+    </div>
+    <!-- end footer -->
+</div>
+<!-- end wrap -->
+</body>
+</html>

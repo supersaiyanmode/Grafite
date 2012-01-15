@@ -1,0 +1,94 @@
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-user-select:none;
+    cursor:default;
+}
+body {
+    font: 12px/18px Arial, Tahoma, Verdana, sans-serif;
+    width: 100%;
+}
+p {
+    margin: 0 0 18px
+}
+img {
+    border: none;
+}
+input {
+    vertical-align: middle;
+}
+#wrapper {
+    margin: 0 auto;
+}
+
+#container {
+    width: 100%;
+    float: left;
+    overflow: hidden;
+    margin-right: -100%;
+}
+#Content {
+    padding-right:5px;
+    right:250px;
+    margin-right:250px;
+}
+
+
+/* Sidebar Right
+ *-*----------------------------------------------------------------------------*/
+div#divTicker {
+    width: 250px;
+    height:100%;
+    right:0px;
+    position: absolute;
+    background: -webkit-linear-gradient(left,#eee,#eee,#ddd);
+    overflow-y:scroll;
+    padding-left:4px;
+    border-left:1px solid #ddd;
+}
+
+.FeedUserLogo{
+    float:left;
+}
+.FeedContentWrap{
+    margin-left:35px;
+}
+.FeedTitle * {
+    font-weight:bold;
+    text-decoration:none;
+    color:black;
+}
+.FeedTopMessage{
+    color:#333;
+}
+
+
+/* Footer
+ *-*----------------------------------------------------------------------------*/
+#bottombar{
+    bottom:0px;
+    height: 50px;
+    background: -webkit-linear-gradient(top,#eee,#eee,white);
+    font: 18px sans-serif;
+    text-align:center;
+}
+#bottombar a {
+    color:#444;
+    text-decoration:none;
+}
+#bottombar ul {
+    list-style-type: none;
+}
+
+div#bottombar ul{
+    height:100px;
+}
+
+div#bottombar li{
+    line-height:50px;
+    height:100%;
+    display: inline;
+    list-style-type: none;
+    padding-left: 10px;
+    padding-right:10px;
+}

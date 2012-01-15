@@ -1,0 +1,4 @@
+cron:
+- description: Reminder XMPPService
+  url: /reminder?password=thrustmaximum
+  schedule: every 5 minutes

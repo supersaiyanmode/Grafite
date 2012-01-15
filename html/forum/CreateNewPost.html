@@ -1,0 +1,35 @@
+<div class="post" id="divThread_{{post.threadId.key.id}}">
+    <div class="entry">
+	    <table>
+	    <tr>
+	    <td style="vertical-align:top"><img src="{{post.user.displayPicture}}" width="80px"/></td>
+	    <td style="vertical-align:top"><span><div><a href="{{post.user.profileUrl}}">{{post.user.Nickname}}</a></div>
+	    <br/>
+	    {{post.comment|escape|linebreaksbr|urlize}} </span>
+	    <br/>
+	    <span class="forumActionURL">
+	    <a href="/forum?t={{post.key.id}}">{{post.time}}</a>
+	    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+	    <a href="#" class="forumActionURL">comment</a>
+	    &nbsp;&nbsp;&bull;&nbsp;&nbsp;<a href="#" onclick="return deletePost({{post.key.id}})">delete</a>
+	    </span>
+	    </td>
+	    </tr>
+	    <tr>
+		<td>&nbsp;</td>
+		<td>
+		    <table id="tblThreadComment_{{post.threadId.key.id}}">
+		    <tr id="rowComment_{{post.key.id}}">
+			<td style="vertical-align:top"><img src="{{post.user.displayPicture}}" width="40px"/></td>
+			<td style="vertical-align:top">
+			<div><a href="{{p.user.profileUrl}}">{{post.user.Nickname}}</a></div>
+			<textarea class="commentbox" name="text" id="txtPostComment_threadId_{{post.threadId.key.id}}"></textarea>
+			<button onclick="return postReply({{post.threadId.key.id}})">Reply</button>
+			</td>
+		    </tr>
+		    </table>
+		</td>
+	    </tr>
+	    </table>
+    </div>
+</div>
